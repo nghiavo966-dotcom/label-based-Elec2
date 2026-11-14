@@ -1,0 +1,83 @@
+
+[project]
+name = "adaptive-model-updating"
+version = "0.1.0"
+description = "Adaptive Model Updating in Automated Data Pipelines"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+
+# --------------------------------------------------
+# RUFF: PYTHON CODE QUALITY AND FORMATTING
+# --------------------------------------------------
+
+[tool.ruff]
+# Maximum line length
+line-length = 100
+
+# Python version used by the project
+target-version = "py311"
+
+# Directories and files excluded from linting
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+# Enabled lint rules:
+# E4: Import errors
+# E7: Statement errors
+# E9: Runtime errors
+# F: Pyflakes
+# I: Import sorting
+
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "F",
+    "I",
+]
+
+[tool.ruff.format]
+# Use double quotes for strings
+quote-style = "double"
+
+# Use 4 spaces for indentation
+indent-style = "space"
+
+# Use LF line endings
+line-ending = "lf"
+
+# --------------------------------------------------
+# PYTEST: AUTOMATED TESTING
+# --------------------------------------------------
+
+[tool.pytest.ini_options]
+# Minimum pytest version
+minversion = "8.0"
+
+# Directory containing test files
+testpaths = [
+    "tests",
+]
+
+# Test file naming convention
+python_files = [
+    "test_*.py",
+]
+
+# Test function naming convention
+python_functions = [
+    "test_*",
+]
+
+# Show extra information for passed, skipped, and failed tests
+addopts = "-ra"
+
+# Require markers to be registered before use
+strict_markers = true

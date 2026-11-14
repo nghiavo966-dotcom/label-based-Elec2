@@ -1,0 +1,56 @@
+name: nhom4-adaptive-model-updating
+
+services:
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v26.2.6
+    container_name: redpanda
+
+    command:
+      - redpanda
+      - start
+
+      # Kafka API listeners
+      - --kafka-addr
+      - internal://0.0.0.0:9092,external://0.0.0.0:19092
+
+      # Addresses advertised to Kafka clients
+      - --advertise-kafka-addr
+      - internal://redpanda:9092,external://localhost:19092
+
+      # Internal RPC communication
+      - --rpc-addr
+      - redpanda:33145
+      - --advertise-rpc-addr
+      - redpanda:33145
+
+      # Development configuration
+      - --mode
+      - dev-container
+      - --smp
+      - "1"
+      - --default-log-level=info
+
+    ports:
+      # Kafka API accessible from host machine
+      - "19092:19092"
+
+      # Redpanda Admin API
+      - "19644:9644"
+
+    volumes:
+      # Persist Redpanda data
+      - redpanda_data:/var/lib/redpanda/data
+
+    restart: unless-stopped
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - rpk cluster health --exit-when-healthy
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+volumes:
+  redpanda_data:
